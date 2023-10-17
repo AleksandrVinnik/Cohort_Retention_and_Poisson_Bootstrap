@@ -30,7 +30,7 @@ Which set of offers can be considered the best? What metrics should be analyzed 
  - GIT.
 
 
-For details and visualisation please refer to the JupiterNotebook - 
+For details and visualisation please refer to the JupiterNotebook - https://github.com/AleksandrVinnik/Cohort_Retention_and_Poisson_Bootstrap/blob/b682e46ca7200a9fc9e16f0f5de85a3bd70d7882/Cohort_Retention_and_Poisson_Bootstrap.ipynb
 
 
 ● References to the used sources:
