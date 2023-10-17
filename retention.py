@@ -18,11 +18,9 @@ def cohort_retention(reg_data,
     ----------
     reg_data : pandas.core.frame.DataFrame
         DataFrame containing user registration data, including 'uid' and 'reg_ts' columns.
-        'reg_ts' should be in timestamp format.
 
     auth_data : DataFrame
         DataFrame containing user authentication data, including 'uid' and 'auth_ts' columns.
-        'auth_ts' should be in timestamp format.
 
     start_date : str
         Start date for defining cohorts in 'YYYY-MM-DD' format. Cohorts will be created from this date onwards.
