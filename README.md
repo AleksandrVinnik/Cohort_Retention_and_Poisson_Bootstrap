@@ -19,13 +19,13 @@ graph TD
   B --> C[Convert timestamps to datetime];
   C --> D[Exploratory Data Analysis];
   D --> E[Check for duplicates & ranges];
-  E --> F[Call rt.cohort_retention()];
+  E --> F[Call rt.cohort_retention];
   F --> G[Monthly Classic Retention];
   F --> H[Weekly Classic Retention];
   F --> I[Daily Rolling Retention];
-  G --> J[Visualize with viz.retention_plot()];
-  H --> K[Visualize with viz.retention_plot()];
-  I --> L[Visualize with viz.retention_plot()];
+  G --> J[Visualize with viz.retention_plot];
+  H --> K[Visualize with viz.retention_plot];
+  I --> L[Visualize with viz.retention_plot];
 ```
 cohort_retention(reg_data, auth_data, start_date, end_date, cohort_type, number_of_periods, retention_type='classic')
 
@@ -65,7 +65,7 @@ result_df.retention_type
 graph TD
   A[Start Assignment 2] --> B[Download CSV from Yandex];
   B --> C[Read ab_test_data];
-  C --> D[Initial EDA (head, info, unique values)];
+  C --> D[Initial EDA head, info, unique values];
   D --> E[Check duplicate user_ids per group];
   E --> F[Plot group sizes];
   F --> G[Check for overlapping users];
@@ -103,7 +103,7 @@ This flow visualizes how to evaluate event performance in the game, adjusting me
 ```mermaid
 graph TD
   A[Start Assignment 3] --> B[Identify Event Type];
-  B --> C[Define Goals (Complete Levels, Rewards)];
+  B --> C[Define Goals - Complete Levels, Rewards];
   C --> D[Evaluate Metrics];
   D --> E[Participation Rate];
   D --> F[Completion Rate];
