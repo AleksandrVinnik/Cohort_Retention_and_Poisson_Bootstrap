@@ -39,7 +39,7 @@ sequenceDiagram
     J->>V: viz.retention_plot(week_retention_df, periods_to_show=4)
 
     activate V
-    V->>V: Generate retention heatmap
+    V->>V: Generate retention HeatMap and LinePlot
     V->>V: Add cohort size annotations
     V->>V: Apply consistent styling
     V-->>J: Output matplotlib figure
