@@ -250,5 +250,14 @@ graph TD
   J --> J2[Drop-off Rate Increase];
   J --> J3[Frustration vs. Retention Analysis];
   I --> N[No: Continue with standard metrics];
-
 ```
+
+---
+
+## 📓 Full Jupyter Notebook
+
+For a comprehensive, step-by-step walkthrough of the cohort retention analysis and Poisson bootstrap A/B testing, please refer to the full Jupyter notebook:
+
+[Cohort_Retention_and_Poisson_Bootstrap.ipynb](./Cohort_Retention_and_Poisson_Bootstrap.ipynb)
+
+This notebook includes detailed explanations, code implementation, visualizations, and results to help you understand and reproduce the analyses.
