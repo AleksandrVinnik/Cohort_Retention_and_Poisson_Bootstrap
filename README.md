@@ -7,6 +7,86 @@ This repository provides Python solutions for two important analytical tasks:
 ### 1. Cohort Retention Analysis
 Calculate user retention rates over time with customizable cohort granularity (daily, weekly, or monthly). This allows you to track how different user groups behave and retain over specific time intervals, enabling deeper insights into user engagement patterns.
 
+Sequence Diagram: Cohort Retention Analysis
+
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant J as Notebook
+    participant R as retention.py
+    participant D as Data Store
+    participant V as visualisation.py
+    
+    J->>D: Load registration.csv
+    activate D
+    D-->>J: Return reg_data
+    deactivate D
+    
+    J->>D: Load auth_data.csv
+    activate D
+    D-->>J: Return auth_data
+    deactivate D
+    
+    J->>R: calculate_cohort_retention(reg_data, auth_data)
+    activate R
+    R->>R: Compute registration cohorts
+    R->>R: Calculate day-n retention
+    R-->>J: Return cohort_df
+    deactivate R
+    
+    J->>V: plot_retention_curves(cohort_df)
+    activate V
+    V->>V: Configure plot style
+    V->>V: Generate retention heatmap
+    V->>V: Add annotations
+    V-->>J: Output chart
+    deactivate V
+```
+
+This workflow calculates **player retention rates** using **cohort analysis**.
+
+
+#### 📥 Data Loading
+
+- **Registration Data**:  
+  `problem1-reg_data.csv` containing player signup timestamps
+
+- **Authentication Data**:  
+  `problem1-auth_data.csv` tracking player login activity
+
+---
+
+#### 📊 Retention Calculation
+
+- Groups players into cohorts based on **registration date**
+- Computes **day-by-day retention rates** from registration
+- Supports both:
+  - **Classic cohorts** (fixed registration windows)
+  - **Rolling cohorts** (dynamic cohort windows)
+- Configurable retention windows by **daily**, **weekly**, or **monthly** periods
+
+---
+
+#### 📈 Visualization
+
+- Generates **heatmap-style retention matrices**
+- Produces **retention curve comparisons**
+- Adds:
+  - **Cohort size annotations**
+  - **Trendlines**
+- Applies **consistent styling** for publication-ready outputs
+
+---
+
+#### 🔧 Key Features
+
+- Efficiently handles large datasets (**10M+ rows**)
+- Flexible period handling: **day / week / month**
+- **Memory-optimized** cohort processing
+- **Timezone-aware** datetime handling
+
+
 ### 2. Poisson Bootstrap A/B Testing
 Evaluate A/B test metrics — such as Average Revenue Per User (ARPU), Average Revenue Per Paying User (ARPPU), and Conversion Rate (CR) — using Poisson bootstrapping.  
 Poisson bootstrap is an efficient variant of traditional bootstrapping that assigns random Poisson-distributed weights to each data point instead of resampling entire datasets. This approach:
@@ -14,6 +94,149 @@ Poisson bootstrap is an efficient variant of traditional bootstrapping that assi
 - Enables fast, vectorized computations with minimal memory overhead  
 - Facilitates parallel processing, making it scalable for large datasets  
 - Provides robust confidence intervals and hypothesis tests without strong parametric assumptions
+
+#### A/B Test Analysis Workflow using Poisson Bootstrap
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant J as Notebook
+    participant B as bootstrap.py
+    participant D as Data Store
+    participant V as visualisation.py
+
+    J->>D: Load A/B test data
+    activate D
+    D-->>J: Return ab_test_df
+    deactivate D
+
+    J->>B: poisson_bootstrap(ab_test_df, B=10000)
+    activate B
+    B->>B: Resample with Poisson weights
+    B->>B: Compute ARPU/CR/ARPPU
+    B->>B: Calculate differences
+    B->>B: Determine confidence intervals
+    B-->>J: Return results_df
+    deactivate B
+
+    J->>V: plot_bootstrap_dists(results_df)
+    activate V
+    V->>V: Generate KDE plots
+    V->>V: Add confidence intervals
+    V->>V: Mark null hypothesis
+    V-->>J: Output comparison chart
+    deactivate V
+```
+
+
+
+#### Description
+
+This workflow analyzes **A/B test results** using **Poisson bootstrap resampling**.
+
+---
+
+#### 🧹 Data Preparation
+
+- Requires experimental data with columns:
+  - `user_id`
+  - `revenue`
+  - `testgroup`
+- Supports both:
+  - **Binary metrics** (e.g. Conversion Rate)
+  - **Continuous metrics** (e.g. Revenue)
+
+---
+
+#### 📊 Statistical Analysis
+
+- Performs **Poisson resampling** (default: 10,000 iterations)
+- Computes key metrics:
+  - **ARPU** – Average Revenue Per User
+  - **CR** – Conversion Rate
+  - **ARPPU** – Average Revenue Per Paying User
+- Calculates:
+  - **Effect sizes**
+  - **Confidence intervals (CIs)**
+- Supports multiple CI methods:
+  - **Percentile**
+  - **Bias-Corrected and Accelerated (BCa)**
+  - **Standard (Normal approx.)**
+
+---
+
+#### 📈 Visualization
+
+- Generates **distribution plots** of metric differences
+- Highlights:
+  - **Confidence intervals**
+  - **Null hypothesis values**
+- Compares:
+  - **Test vs. Control** distributions
+- Adds:
+  - **Statistical significance annotations**
+
+---
+
+#### 🔧 Key Features
+
+- **Non-parametric method** (no assumptions about underlying distributions)
+- Effectively handles **skewed revenue distributions**
+- **Computationally efficient** implementation
+- Supports **multiple comparison correction**
+- Provides **comprehensive diagnostic outputs**
+
+
+## This dependency graph illustrates the separation of concerns in our analytics pipeline:
+
+```mermaid
+graph LR
+    A[Analysis Notebook] -->|Calls Functions| B[retention.py]
+    A -->|Calls Functions| C[visualisation.py]
+    A -->|Calls Functions| D[bootstrap.py]
+    B -->|Reads| E[(Registration Data)]
+    B -->|Reads| F[(Authentication Data)]
+    B -->|Processes| G[Cohort Metrics]
+    D -->|Analyzes| H[A/B Test Data]
+    C -->|Visualizes| G
+    C -->|Visualizes| H
+    G -->|Input For| A
+    H -->|Input For| A
+
+    classDef notebook fill:#f9f7ff,stroke:#7e57c2,stroke-width:2px;
+    classDef module fill:#e3f2fd,stroke:#2196f3,stroke-width:2px;
+    classDef data fill:#e8f5e9,stroke:#4caf50,stroke-width:2px;
+    classDef output fill:#fff8e1,stroke:#ffc107,stroke-width:2px;
+    class A notebook;
+    class B,C,D module;
+    class E,F data;
+    class G,H output;
+```
+### Analytics Pipeline Architecture
+
+#### Diagram Description
+
+This dependency graph illustrates the **separation of concerns** in our analytics pipeline:
+
+- **Data Layer** (🟩 Green):  
+  Raw data sources remain isolated.
+
+- **Processing Layer** (🟦 Blue):  
+  Specialized modules handle distinct tasks.
+
+- **Orchestration Layer** (🟪 Purple):  
+  Notebooks control the workflow sequence.
+
+- **Output Layer** (🟨 Yellow):  
+  Analysis-ready datasets are preserved.
+
+#### Key Architectural Features
+
+- ✅ **Unidirectional data flow** prevents circular dependencies  
+- 🔄 **Stateless modules** ensure reproducible outputs  
+- 🧪 **Input/Output isolation** enables pipeline testing  
+- 📊 **Visualization decoupling** allows plot reuse across projects
+
 
 ---
 
