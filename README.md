@@ -29,6 +29,10 @@ Implementation of cohort analysis allows teams to quantify retention using two c
 
 Cohort retention can be visualized in **daily, weekly, or monthly** granularity, and supports both **classic** (discrete period-based) and **rolling** (cumulative) retention calculations.
 
+![Daily Rolling Cohort Retention Rate - Line Plot](images/daily_rolling_cohort_retention_rate_line_plot.png)
+
+![Daily Rolling Cohort Retention Rate - Table](images/daily_rolling_cohort_retention_rate_table.png)
+
 ---
 ```mermaid
 graph TD
