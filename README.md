@@ -28,9 +28,9 @@ graph TD
   H --> K[Visualize with viz.retention_plot];
 
 ```
-cohort_retention(reg_data, auth_data, start_date, end_date, cohort_type, number_of_periods, retention_type='classic')
+### cohort_retention(reg_data, auth_data, start_date, end_date, cohort_type, number_of_periods, retention_type='classic')
 
-### ✅ Inputs
+#### ✅ Inputs
 
 | Parameter          | Type       | Description                                             |
 |--------------------|------------|---------------------------------------------------------|
@@ -43,7 +43,7 @@ cohort_retention(reg_data, auth_data, start_date, end_date, cohort_type, number_
 | retention_type     | str        | 'classic' or 'rolling' retention calculation            |
 
 
-### 📤 Output
+#### 📤 Output
 
 Returns a `pandas.DataFrame` where:
 
@@ -55,7 +55,7 @@ Returns a `pandas.DataFrame` where:
   - `'1'`, `'2'`, ...: Retention rates for each period
 - Last row: `"All Users"` aggregated retention across cohorts
 
-### 🧠 Notes
+#### 🧠 Notes
 
 Metadata is stored as attributes in the result:
 
@@ -82,9 +82,9 @@ graph TD
 
 ```
 
-`poisson_bootstrap(ab_test_data, B)`
+### `poisson_bootstrap(ab_test_data, B)`
 
-### ✅ Inputs
+#### ✅ Inputs
 
 | Parameter    | Type       | Description                   |
 |--------------|------------|-------------------------------|
@@ -93,7 +93,7 @@ graph TD
 |              |            | - `revenue`: numeric revenue  |
 | B            | int        | Number of bootstrap iterations|
 
-### 📤 Output
+#### 📤 Output
 
 A DataFrame with B rows, and the following columns:
 
@@ -107,16 +107,16 @@ A DataFrame with B rows, and the following columns:
 | CR_difference          | Conversion Rate (B - A)               |
 
 
-`bootstrap_result_check(bootstrap_data, alpha)`
+### `bootstrap_result_check(bootstrap_data, alpha)`
 
-### ✅ Inputs
+#### ✅ Inputs
 
 | Parameter       | Type   | Description                                |
 |-----------------|--------|--------------------------------------------|
 | bootstrap_data  | Series | Metric difference across bootstrap samples |
 | alpha           | float  | Significance level (e.g. 0.05)             |
 
-### 📤 Output
+#### 📤 Output
 
 Prints:
 
