@@ -7,6 +7,93 @@ This repository provides Python solutions for two important analytical tasks:
 ### 1. Cohort Retention Analysis
 Calculate user retention rates over time with customizable cohort granularity (daily, weekly, or monthly). This allows you to track how different user groups behave and retain over specific time intervals, enabling deeper insights into user engagement patterns.
 
+
+
+### 2. Poisson Bootstrap A/B Testing
+Evaluate A/B test metrics — such as Average Revenue Per User (ARPU), Average Revenue Per Paying User (ARPPU), and Conversion Rate (CR) — using Poisson bootstrapping.  
+Poisson bootstrap is an efficient variant of traditional bootstrapping that assigns random Poisson-distributed weights to each data point instead of resampling entire datasets. This approach:
+
+- Enables fast, vectorized computations with minimal memory overhead  
+- Facilitates parallel processing, making it scalable for large datasets  
+- Provides robust confidence intervals and hypothesis tests without strong parametric assumptions
+
+---
+
+## This dependency graph illustrates the separation of concerns in our analytics pipeline:
+
+```mermaid
+graph LR
+    A[Analysis Notebook] -->|Calls Functions| B[retention.py]
+    A -->|Calls Functions| C[visualisation.py]
+    A -->|Calls Functions| D[bootstrap.py]
+    
+    B -->|Reads| E[(problem1-reg_data.csv)]
+    B -->|Reads| F[(problem1-auth_data.csv)]
+    B -->|Processes| G[Cohort Retention Matrix]
+    
+    D -->|Reads| H[(Проект_1_Задание_2.csv)]
+    D -->|Processes| I[A/B Test Results]
+    
+    C -->|Visualizes| G
+    C -->|Visualizes| I
+    
+    G -->|Input| A
+    I -->|Input| A
+
+    classDef notebook fill:#f9f7ff,stroke:#7e57c2,stroke-width:2px;
+    classDef module fill:#e3f2fd,stroke:#2196f3,stroke-width:2px;
+    classDef data fill:#e8f5e9,stroke:#4caf50,stroke-width:2px;
+    classDef output fill:#fff8e1,stroke:#ffc107,stroke-width:2px;
+    class A notebook;
+    class B,C,D module;
+    class E,F,H data;
+    class G,I output;
+```
+### Analytics Pipeline Architecture
+
+#### Diagram Description
+
+This dependency graph illustrates the **separation of concerns** in our analytics pipeline:
+
+- **Data Layer** (🟩 Green):  
+  Raw data sources remain isolated.
+
+- **Processing Layer** (🟦 Blue):  
+  Specialized modules handle distinct tasks.
+
+- **Orchestration Layer** (🟪 Purple):  
+  Notebooks control the workflow sequence.
+
+- **Output Layer** (🟨 Yellow):  
+  Analysis-ready datasets are preserved.
+
+#### Key Architectural Features
+
+- ✅ **Unidirectional data flow** prevents circular dependencies  
+- 🔄 **Stateless modules** ensure reproducible outputs  
+- 🧪 **Input/Output isolation** enables pipeline testing  
+- 📊 **Visualization decoupling** allows plot reuse across projects
+
+
+---
+
+## 🔢 1. Player Cohort Retention Analysis Function
+
+**Retention** measures how many users return to the product after their first experience, helping teams understand user engagement and product stickiness.
+
+**Cohort analysis** groups users based on their start date (e.g., registration date) and tracks their behavior (e.g., logins) over time. This highlights patterns and retention trends within specific user groups, allowing you to:
+
+- Compare different user onboarding cohorts  
+- Evaluate product changes by tracking newer vs. older cohorts  
+- Identify when churn occurs and respond with tailored actions  
+
+Implementation of cohort analysis allows teams to quantify retention using two core methods:
+
+- **Classic Retention**: Users active in each period after their cohort start  
+- **Rolling Retention**: Users who return at least once *after* a given period  
+
+---
+
 Sequence Diagram: Cohort Retention Analysis
 
 
@@ -88,191 +175,7 @@ This workflow calculates **player retention rates** using **cohort analysis**.
 - Efficiently handles large datasets (**10M+ rows**)
 - Flexible period handling: **day / week / month**
 - **Memory-optimized** cohort processing
-
-
-### 2. Poisson Bootstrap A/B Testing
-Evaluate A/B test metrics — such as Average Revenue Per User (ARPU), Average Revenue Per Paying User (ARPPU), and Conversion Rate (CR) — using Poisson bootstrapping.  
-Poisson bootstrap is an efficient variant of traditional bootstrapping that assigns random Poisson-distributed weights to each data point instead of resampling entire datasets. This approach:
-
-- Enables fast, vectorized computations with minimal memory overhead  
-- Facilitates parallel processing, making it scalable for large datasets  
-- Provides robust confidence intervals and hypothesis tests without strong parametric assumptions
-
-#### A/B Test Analysis Workflow using Poisson Bootstrap
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant J as Notebook
-    participant B as bootstrap.py
-    participant D as Data Store
-    participant V as visualisation.py
-
-    J->>D: Load Проект_1_Задание_2.csv
-    activate D
-    D-->>J: Return ab_test_df (404,770 rows)
-    deactivate D
-
-    J->>B: bs.poisson_bootstrap(ab_test_data, B=10000)
-    activate B
-    B->>B: Resample with Poisson weights
-    B->>B: compute_metrics() [ARPU/CR/ARPPU]
-    B->>B: calculate_confidence_intervals(ci_method='percentile')
-    B->>B: determine_statistical_significance(alpha=0.05)
-    B-->>J: Return results_df (with distributions and CIs)
-    deactivate B
-
-    J->>V: plot_bootstrap_distributions(results_df, metric='ARPU')
-    activate V
-    V->>V: generate_kde_plot()
-    V->>V: add_confidence_interval()
-    V->>V: mark_null_hypothesis()
-    V-->>J: Output ARPU comparison chart
-    deactivate V
-
-    J->>V: plot_bootstrap_distributions(results_df, metric='ARPPU')
-    activate V
-    V->>V: generate_kde_plot()
-    V->>V: add_confidence_interval()
-    V->>V: mark_null_hypothesis()
-    V-->>J: Output ARPU comparison chart
-    deactivate V
-
-    J->>V: plot_bootstrap_distributions(results_df, metric='CR')
-    activate V
-    V->>V: generate_kde_plot()
-    V->>V: add_confidence_interval()
-    V->>V: mark_null_hypothesis()
-    V-->>J: Output CR comparison chart
-    deactivate V
-```
-
-
-
-#### Description
-
-This workflow analyzes **A/B test results** using **Poisson bootstrap resampling**.
-
 ---
-
-#### 🧹 Data Preparation
-
-- Requires experimental data with columns:
-  - `user_id`
-  - `revenue`
-  - `testgroup`
-
-
----
-
-#### 📊 Statistical Analysis
-
-- Performs **Poisson resampling** (default: 10,000 iterations)
-- Computes key metrics:
-  - **ARPU** – Average Revenue Per User
-  - **CR** – Conversion Rate
-  - **ARPPU** – Average Revenue Per Paying User
-- Calculates:
-  - **Effect sizes**
-  - **Confidence intervals (CIs)**
-
-
----
-
-#### 📈 Visualization
-
-- Generates **distribution plots** of metric differences
-- Highlights:
-  - **Confidence intervals**
-  - **Null hypothesis values**
-- Compares:
-  - **Test vs. Control** distributions
-- Adds:
-  - **Statistical significance annotations**
-
----
-
-#### 🔧 Key Features
-
-- **Non-parametric method** (no assumptions about underlying distributions)
-- Effectively handles **skewed revenue distributions**
-- **Computationally efficient** implementation
-- Supports **multiple comparison correction**
-- Provides **comprehensive diagnostic outputs**
-
-
-## This dependency graph illustrates the separation of concerns in our analytics pipeline:
-
-```mermaid
-graph LR
-    A[Analysis Notebook] -->|Calls Functions| B[retention.py]
-    A -->|Calls Functions| C[visualisation.py]
-    A -->|Calls Functions| D[bootstrap.py]
-    
-    B -->|Reads| E[(problem1-reg_data.csv)]
-    B -->|Reads| F[(problem1-auth_data.csv)]
-    B -->|Processes| G[Cohort Retention Matrix]
-    
-    D -->|Reads| H[(Проект_1_Задание_2.csv)]
-    D -->|Processes| I[A/B Test Results]
-    
-    C -->|Visualizes| G
-    C -->|Visualizes| I
-    
-    G -->|Input| A
-    I -->|Input| A
-
-    classDef notebook fill:#f9f7ff,stroke:#7e57c2,stroke-width:2px;
-    classDef module fill:#e3f2fd,stroke:#2196f3,stroke-width:2px;
-    classDef data fill:#e8f5e9,stroke:#4caf50,stroke-width:2px;
-    classDef output fill:#fff8e1,stroke:#ffc107,stroke-width:2px;
-    class A notebook;
-    class B,C,D module;
-    class E,F,H data;
-    class G,I output;
-```
-### Analytics Pipeline Architecture
-
-#### Diagram Description
-
-This dependency graph illustrates the **separation of concerns** in our analytics pipeline:
-
-- **Data Layer** (🟩 Green):  
-  Raw data sources remain isolated.
-
-- **Processing Layer** (🟦 Blue):  
-  Specialized modules handle distinct tasks.
-
-- **Orchestration Layer** (🟪 Purple):  
-  Notebooks control the workflow sequence.
-
-- **Output Layer** (🟨 Yellow):  
-  Analysis-ready datasets are preserved.
-
-#### Key Architectural Features
-
-- ✅ **Unidirectional data flow** prevents circular dependencies  
-- 🔄 **Stateless modules** ensure reproducible outputs  
-- 🧪 **Input/Output isolation** enables pipeline testing  
-- 📊 **Visualization decoupling** allows plot reuse across projects
-
-
----
-
-## 🔢 1. Player Cohort Retention Analysis Function
-
-**Retention** measures how many users return to the product after their first experience, helping teams understand user engagement and product stickiness.
-
-**Cohort analysis** groups users based on their start date (e.g., registration date) and tracks their behavior (e.g., logins) over time. This highlights patterns and retention trends within specific user groups, allowing you to:
-
-- Compare different user onboarding cohorts  
-- Evaluate product changes by tracking newer vs. older cohorts  
-- Identify when churn occurs and respond with tailored actions  
-
-Implementation of cohort analysis allows teams to quantify retention using two core methods:
-
-- **Classic Retention**: Users active in each period after their cohort start  
-- **Rolling Retention**: Users who return at least once *after* a given period  
 
 Cohort retention can be visualized in **daily, weekly, or monthly** granularity, and supports both **classic** (discrete period-based) and **rolling** (cumulative) retention calculations.
 
@@ -384,6 +287,109 @@ Poisson bootstrapping is a **memory- and compute-efficient** variant of traditio
 - **Low memory usage**: Avoids large temporary datasets common in classic resampling  
 
 This method is especially helpful for **large-scale A/B tests** with millions of users and revenue entries.
+
+---
+#### A/B Test Analysis Workflow using Poisson Bootstrap
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant J as Notebook
+    participant B as bootstrap.py
+    participant D as Data Store
+    participant V as visualisation.py
+
+    J->>D: Load Проект_1_Задание_2.csv
+    activate D
+    D-->>J: Return ab_test_df (404,770 rows)
+    deactivate D
+
+    J->>B: bs.poisson_bootstrap(ab_test_data, B=10000)
+    activate B
+    B->>B: Resample with Poisson weights
+    B->>B: compute_metrics() [ARPU/CR/ARPPU]
+    B->>B: calculate_confidence_intervals(ci_method='percentile')
+    B->>B: determine_statistical_significance(alpha=0.05)
+    B-->>J: Return results_df (with distributions and CIs)
+    deactivate B
+
+    J->>V: plot_bootstrap_distributions(results_df, metric='ARPU')
+    activate V
+    V->>V: generate_kde_plot()
+    V->>V: add_confidence_interval()
+    V->>V: mark_null_hypothesis()
+    V-->>J: Output ARPU comparison chart
+    deactivate V
+
+    J->>V: plot_bootstrap_distributions(results_df, metric='ARPPU')
+    activate V
+    V->>V: generate_kde_plot()
+    V->>V: add_confidence_interval()
+    V->>V: mark_null_hypothesis()
+    V-->>J: Output ARPU comparison chart
+    deactivate V
+
+    J->>V: plot_bootstrap_distributions(results_df, metric='CR')
+    activate V
+    V->>V: generate_kde_plot()
+    V->>V: add_confidence_interval()
+    V->>V: mark_null_hypothesis()
+    V-->>J: Output CR comparison chart
+    deactivate V
+```
+
+
+
+#### Description
+
+This workflow analyzes **A/B test results** using **Poisson bootstrap resampling**.
+
+---
+
+#### 🧹 Data Preparation
+
+- Requires experimental data with columns:
+  - `user_id`
+  - `revenue`
+  - `testgroup`
+
+
+---
+
+#### 📊 Statistical Analysis
+
+- Performs **Poisson resampling** (default: 10,000 iterations)
+- Computes key metrics:
+  - **ARPU** – Average Revenue Per User
+  - **CR** – Conversion Rate
+  - **ARPPU** – Average Revenue Per Paying User
+- Calculates:
+  - **Effect sizes**
+  - **Confidence intervals (CIs)**
+
+
+---
+
+#### 📈 Visualization
+
+- Generates **distribution plots** of metric differences
+- Highlights:
+  - **Confidence intervals**
+  - **Null hypothesis values**
+- Compares:
+  - **Test vs. Control** distributions
+- Adds:
+  - **Statistical significance annotations**
+
+---
+
+#### 🔧 Key Features
+
+- **Non-parametric method** (no assumptions about underlying distributions)
+- Effectively handles **skewed revenue distributions**
+- **Computationally efficient** implementation
+- Supports **multiple comparison correction**
+- Provides **comprehensive diagnostic outputs**
 
 ---
 
