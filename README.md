@@ -31,9 +31,9 @@ Cohort retention can be visualized in **daily, weekly, or monthly** granularity,
 
 ### Daily Rolling Cohort Retention Rate
 
-![Daily Rolling Cohort Retention Rate - Line Plot](Images/daily_rolling_cohort_retention_rate_line_plot.png)
+![Daily Rolling Cohort Retention Rate - Line Plot](Images/Daily%20Rolling%20Cohort%20Retention%20Rate%20-%20Line%20Plot.png)
 
-![Daily Rolling Cohort Retention Rate - Table](Images/daily_rolling_cohort_retention_rate_table.png)
+![Daily Rolling Cohort Retention Rate - Table](Images/Daily%20Rolling%20Cohort%20Retention%20Rate%20-%20Table.png)
 
 
 
