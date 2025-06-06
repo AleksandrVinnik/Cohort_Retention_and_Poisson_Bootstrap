@@ -1,16 +1,19 @@
-# 📊 Cohort Retention & Poisson Bootstrap A/B Testing Toolkit
+# 📊 Cohort Retention & Poisson Bootstrap A/B Testing
 
-This repository contains Python solution for:
+## 📁 Repository Overview
 
-**Cohort Retention Analysis** — Calculate user retention rates over time.  
-**Poisson Bootstrap A/B Testing** — Evaluate A/B test metrics (ARPU, ARPPU, CR) using Poisson bootstrapping.  
+This repository provides Python solutions for two important analytical tasks:
 
-## 📁 Contents
+### Cohort Retention Analysis
+Calculate user retention rates over time with customizable cohort granularity (daily, weekly, or monthly). This allows you to track how different user groups behave and retain over specific time intervals, enabling deeper insights into user engagement patterns.
 
-cohort_retention(...): Computes user retention by cohort (daily, weekly, etc.).  
-poisson_bootstrap(...): Performs Poisson bootstrap for A/B testing metrics.  
-bootstrap_result_check(...): Evaluates bootstrap output for statistical significance.  
+### Poisson Bootstrap A/B Testing
+Evaluate A/B test metrics — such as Average Revenue Per User (ARPU), Average Revenue Per Paying User (ARPPU), and Conversion Rate (CR) — using Poisson bootstrapping.  
+Poisson bootstrap is an efficient variant of traditional bootstrapping that assigns random Poisson-distributed weights to each data point instead of resampling entire datasets. This approach:
 
+- Enables fast, vectorized computations with minimal memory overhead  
+- Facilitates parallel processing, making it scalable for large datasets  
+- Provides robust confidence intervals and hypothesis tests without strong parametric assumptions
 
 ## 🔢 1. Player Cohort Retention Analysis Function
 
@@ -29,7 +32,7 @@ Implementation of cohort analysis allows teams to quantify retention using two c
 
 Cohort retention can be visualized in **daily, weekly, or monthly** granularity, and supports both **classic** (discrete period-based) and **rolling** (cumulative) retention calculations.
 
-### Daily Rolling Cohort Retention Rate
+### 📊 Daily Rolling Cohort Retention Rate
 
 ![Daily Rolling Cohort Retention Rate - Line Plot](Images/Daily%20Rolling%20Cohort%20Retention%20Rate%20-%20Line%20Plot.png)
 
