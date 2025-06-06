@@ -82,7 +82,7 @@ graph TD
 
 ```
 
-poisson_bootstrap(ab_test_data, B)
+`poisson_bootstrap(ab_test_data, B)`
 
 ### ✅ Inputs
 
@@ -106,8 +106,45 @@ A DataFrame with B rows, and the following columns:
 | ARPPU_difference       | Avg. Revenue Per Paying User (B - A)  |
 | CR_difference          | Conversion Rate (B - A)               |
 
-## 📉 3. Hypothesis Testing
 
+`bootstrap_result_check(bootstrap_data, alpha)`
+
+### ✅ Inputs
+
+| Parameter       | Type   | Description                                |
+|-----------------|--------|--------------------------------------------|
+| bootstrap_data  | Series | Metric difference across bootstrap samples |
+| alpha           | float  | Significance level (e.g. 0.05)             |
+
+### 📤 Output
+
+Prints:
+
+- `Sample mean`  
+- `Confidence interval`  
+- `Decision about rejecting the null hypothesis`
+
+## 3. Metrics for Evaluating Themed Event Performance in Games
+
+### 3.1. Metrics to Evaluate Event Results
+- Participation rate
+- Completion rate (players finishing the event)
+- Average time to complete
+- Average rewards earned
+- Retention after event (did players come back after the event?)
+- Revenue uplift during event
+
+### 3.2. Impact of Increased Difficulty (Level Regression)
+If event mechanics are made more challenging by regressing levels on failure:
+
+- Metrics should include attempt counts per player to track difficulty.
+- Failure rates per level.
+- Drop-off points (levels where players quit).
+- Time spent per level (indicates difficulty).
+- Comparison of completion rate before and after difficulty change.
+- Player frustration or satisfaction metrics if available (e.g., surveys).
+
+### Metrics Flowchart
 This flow visualizes how to evaluate event performance in the game, adjusting metrics based on event complexity (e.g., level regression after failure).
 
 ```mermaid
@@ -129,20 +166,4 @@ graph TD
   I --> N[No: Continue with standard metrics];
 
 ```
-
-`bootstrap_result_check(bootstrap_data, alpha)`
-
-### ✅ Inputs
-
-| Parameter       | Type   | Description                                |
-|-----------------|--------|--------------------------------------------|
-| bootstrap_data  | Series | Metric difference across bootstrap samples |
-| alpha           | float  | Significance level (e.g. 0.05)             |
-
-### 📤 Output
-
-Prints:
-
-- `Sample mean`  
-- `Confidence interval`  
-- `Decision about rejecting the null hypothesis`
+M
