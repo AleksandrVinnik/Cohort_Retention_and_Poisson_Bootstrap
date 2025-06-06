@@ -64,7 +64,9 @@ This workflow calculates **player retention rates** using **cohort analysis**.
 - Supports both:
   - **Classic cohorts** (fixed registration windows)
   - **Rolling cohorts** (dynamic cohort windows)
-- Configurable retention windows by **daily**, **weekly**, or **monthly** periods
+- Supports **custom cohort frequency**:
+  - **Daily**, **Weekly**, or **Monthly** cohorts
+- Retention window is **fully configurable** for different periods
 
 ---
 
@@ -75,7 +77,7 @@ This workflow calculates **player retention rates** using **cohort analysis**.
 - Adds:
   - **Cohort size annotations**
   - **Trendlines**
-- Applies **consistent styling** for publication-ready outputs
+- Applies **consistent styling** for **publication-ready** outputs
 
 ---
 
@@ -84,7 +86,6 @@ This workflow calculates **player retention rates** using **cohort analysis**.
 - Efficiently handles large datasets (**10M+ rows**)
 - Flexible period handling: **day / week / month**
 - **Memory-optimized** cohort processing
-- **Timezone-aware** datetime handling
 
 
 ### 2. Poisson Bootstrap A/B Testing
@@ -142,9 +143,7 @@ This workflow analyzes **A/B test results** using **Poisson bootstrap resampling
   - `user_id`
   - `revenue`
   - `testgroup`
-- Supports both:
-  - **Binary metrics** (e.g. Conversion Rate)
-  - **Continuous metrics** (e.g. Revenue)
+
 
 ---
 
@@ -158,10 +157,7 @@ This workflow analyzes **A/B test results** using **Poisson bootstrap resampling
 - Calculates:
   - **Effect sizes**
   - **Confidence intervals (CIs)**
-- Supports multiple CI methods:
-  - **Percentile**
-  - **Bias-Corrected and Accelerated (BCa)**
-  - **Standard (Normal approx.)**
+
 
 ---
 
