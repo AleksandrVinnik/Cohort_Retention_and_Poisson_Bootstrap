@@ -112,20 +112,22 @@ This flow visualizes how to evaluate event performance in the game, adjusting me
 
 ```mermaid
 graph TD
-  A[Identify Event Type]
-  A --> B[Define Goals (Complete Levels, Rewards)];
+  A[Identify Event Type];
+  A --> B[Define Goals - Complete Levels, Rewards];
   B --> C[Evaluate Metrics];
-  C --> D[Participation Rate];
-  C --> E[Completion Rate];
-  C --> F[Time Spent];
-  C --> G[Number of Attempts per Player];
-  C --> H[Items Collected / Rewards Unlocked];
+  C --> D[Standard Metrics];
+  D --> D1[Participation Rate];
+  D --> D2[Completion Rate];
+  D --> D3[Time Spent];
+  D --> D4[Number of Attempts per Player];
+  D --> D5[Items Collected / Rewards Unlocked];
   A --> I{Was event made harder?};
-  I --> J[Yes: Add metrics for Regression Events];
-  J --> K[Avg. Level Lost After Failure];
-  J --> L[Drop-off Rate Increase];
-  J --> M[Frustration vs. Retention Analysis];
+  I --> J[Yes: Add metrics for regression events];
+  J --> J1[Avg. Level Lost After Failure];
+  J --> J2[Drop-off Rate Increase];
+  J --> J3[Frustration vs. Retention Analysis];
   I --> N[No: Continue with standard metrics];
+
 ```
 
 `bootstrap_result_check(bootstrap_data, alpha)`
