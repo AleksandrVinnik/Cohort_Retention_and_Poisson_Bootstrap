@@ -28,7 +28,7 @@ sequenceDiagram
     D-->>J: Return auth_data (9.6M rows)
     deactivate D
     
-    J->>R: calculate_cohort_retention(reg_data, auth_data,<br>start_date='2020-01-01',<br>period='week', retention_periods=12)
+    J->>R: rt.cohort_retention(reg_data, auth_data, '2020-01-06', '2020-03-08', 'week', retention_periods=15, 'classic')
     activate R
     R->>R: Clean and merge datasets
     R->>R: Create registration cohorts
@@ -36,7 +36,8 @@ sequenceDiagram
     R-->>J: Return cohort_df (retention metrics)
     deactivate R
     
-    J->>V: plot_retention_curves(cohort_df,<br>title='Weekly Retention',<br>periods_to_show=8)
+    J->>V: viz.retention_plot(week_retention_df, periods_to_show=4)
+
     activate V
     V->>V: Generate retention heatmap
     V->>V: Add cohort size annotations
@@ -107,26 +108,42 @@ sequenceDiagram
     participant D as Data Store
     participant V as visualisation.py
 
-    J->>D: Load A/B test data
+    J->>D: Load Проект_1_Задание_2.csv
     activate D
-    D-->>J: Return ab_test_df
+    D-->>J: Return ab_test_df (404,770 rows)
     deactivate D
 
-    J->>B: poisson_bootstrap(ab_test_df, B=10000)
+    J->>B: bs.poisson_bootstrap(ab_test_data, B=10000)
     activate B
     B->>B: Resample with Poisson weights
-    B->>B: Compute ARPU/CR/ARPPU
-    B->>B: Calculate differences
-    B->>B: Determine confidence intervals
-    B-->>J: Return results_df
+    B->>B: compute_metrics() [ARPU/CR/ARPPU]
+    B->>B: calculate_confidence_intervals(ci_method='percentile')
+    B->>B: determine_statistical_significance(alpha=0.05)
+    B-->>J: Return results_df (with distributions and CIs)
     deactivate B
 
-    J->>V: plot_bootstrap_dists(results_df)
+    J->>V: plot_bootstrap_distributions(results_df, metric='ARPU')
     activate V
-    V->>V: Generate KDE plots
-    V->>V: Add confidence intervals
-    V->>V: Mark null hypothesis
-    V-->>J: Output comparison chart
+    V->>V: generate_kde_plot()
+    V->>V: add_confidence_interval()
+    V->>V: mark_null_hypothesis()
+    V-->>J: Output ARPU comparison chart
+    deactivate V
+
+    J->>V: plot_bootstrap_distributions(results_df, metric='ARPPU')
+    activate V
+    V->>V: generate_kde_plot()
+    V->>V: add_confidence_interval()
+    V->>V: mark_null_hypothesis()
+    V-->>J: Output ARPU comparison chart
+    deactivate V
+
+    J->>V: plot_bootstrap_distributions(results_df, metric='CR')
+    activate V
+    V->>V: generate_kde_plot()
+    V->>V: add_confidence_interval()
+    V->>V: mark_null_hypothesis()
+    V-->>J: Output CR comparison chart
     deactivate V
 ```
 
