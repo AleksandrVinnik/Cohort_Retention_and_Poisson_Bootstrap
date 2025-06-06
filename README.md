@@ -18,29 +18,30 @@ sequenceDiagram
     participant D as Data Store
     participant V as visualisation.py
     
-    J->>D: Load registration.csv
+    J->>D: Load problem1-reg_data.csv
     activate D
-    D-->>J: Return reg_data
+    D-->>J: Return reg_data (1M rows)
     deactivate D
     
-    J->>D: Load auth_data.csv
+    J->>D: Load problem1-auth_data.csv
     activate D
-    D-->>J: Return auth_data
+    D-->>J: Return auth_data (9.6M rows)
     deactivate D
     
-    J->>R: calculate_cohort_retention(reg_data, auth_data)
+    J->>R: calculate_cohort_retention(reg_data, auth_data,<br>start_date='2020-01-01',<br>period='week', retention_periods=12)
     activate R
-    R->>R: Compute registration cohorts
+    R->>R: Clean and merge datasets
+    R->>R: Create registration cohorts
     R->>R: Calculate day-n retention
-    R-->>J: Return cohort_df
+    R-->>J: Return cohort_df (retention metrics)
     deactivate R
     
-    J->>V: plot_retention_curves(cohort_df)
+    J->>V: plot_retention_curves(cohort_df,<br>title='Weekly Retention',<br>periods_to_show=8)
     activate V
-    V->>V: Configure plot style
     V->>V: Generate retention heatmap
-    V->>V: Add annotations
-    V-->>J: Output chart
+    V->>V: Add cohort size annotations
+    V->>V: Apply consistent styling
+    V-->>J: Output matplotlib figure
     deactivate V
 ```
 
@@ -190,14 +191,19 @@ graph LR
     A[Analysis Notebook] -->|Calls Functions| B[retention.py]
     A -->|Calls Functions| C[visualisation.py]
     A -->|Calls Functions| D[bootstrap.py]
-    B -->|Reads| E[(Registration Data)]
-    B -->|Reads| F[(Authentication Data)]
-    B -->|Processes| G[Cohort Metrics]
-    D -->|Analyzes| H[A/B Test Data]
+    
+    B -->|Reads| E[(problem1-reg_data.csv)]
+    B -->|Reads| F[(problem1-auth_data.csv)]
+    B -->|Processes| G[Cohort Retention Matrix]
+    
+    D -->|Reads| H[(Проект_1_Задание_2.csv)]
+    D -->|Processes| I[A/B Test Results]
+    
     C -->|Visualizes| G
-    C -->|Visualizes| H
-    G -->|Input For| A
-    H -->|Input For| A
+    C -->|Visualizes| I
+    
+    G -->|Input| A
+    I -->|Input| A
 
     classDef notebook fill:#f9f7ff,stroke:#7e57c2,stroke-width:2px;
     classDef module fill:#e3f2fd,stroke:#2196f3,stroke-width:2px;
@@ -205,8 +211,8 @@ graph LR
     classDef output fill:#fff8e1,stroke:#ffc107,stroke-width:2px;
     class A notebook;
     class B,C,D module;
-    class E,F data;
-    class G,H output;
+    class E,F,H data;
+    class G,I output;
 ```
 ### Analytics Pipeline Architecture
 
