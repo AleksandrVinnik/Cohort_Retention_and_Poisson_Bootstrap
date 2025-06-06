@@ -4,16 +4,18 @@
 
 This repository provides Python solutions for two important analytical tasks:
 
-### Cohort Retention Analysis
+### 1. Cohort Retention Analysis
 Calculate user retention rates over time with customizable cohort granularity (daily, weekly, or monthly). This allows you to track how different user groups behave and retain over specific time intervals, enabling deeper insights into user engagement patterns.
 
-### Poisson Bootstrap A/B Testing
+### 2. Poisson Bootstrap A/B Testing
 Evaluate A/B test metrics — such as Average Revenue Per User (ARPU), Average Revenue Per Paying User (ARPPU), and Conversion Rate (CR) — using Poisson bootstrapping.  
 Poisson bootstrap is an efficient variant of traditional bootstrapping that assigns random Poisson-distributed weights to each data point instead of resampling entire datasets. This approach:
 
 - Enables fast, vectorized computations with minimal memory overhead  
 - Facilitates parallel processing, making it scalable for large datasets  
 - Provides robust confidence intervals and hypothesis tests without strong parametric assumptions
+
+---
 
 ## 🔢 1. Player Cohort Retention Analysis Function
 
@@ -31,6 +33,8 @@ Implementation of cohort analysis allows teams to quantify retention using two c
 - **Rolling Retention**: Users who return at least once *after* a given period  
 
 Cohort retention can be visualized in **daily, weekly, or monthly** granularity, and supports both **classic** (discrete period-based) and **rolling** (cumulative) retention calculations.
+
+---
 
 ### 📊 Daily Rolling Cohort Retention Rate
 
@@ -54,8 +58,9 @@ graph TD
   F --> I[Visualize with viz.retention_plot];
   G --> J[Visualize with viz.retention_plot];
   H --> K[Visualize with viz.retention_plot];
-
 ```
+
+---
 
 ### 🔁 Why It Matters
 
@@ -97,6 +102,8 @@ Returns a `pandas.DataFrame` where:
   - `'1'`, `'2'`, ...: Retention rates for each period
 - Last row: `"All Users"` aggregated retention across cohorts
 
+---
+
 #### 🧠 Notes
 
 Metadata is stored as attributes in the result:
@@ -106,6 +113,7 @@ Metadata is stored as attributes in the result:
 - `result_df.cohort_type`
 - `result_df.retention_type`
 
+---
 
 ## 🧪 2. Poisson Bootstrap A/B Testing
 
@@ -153,6 +161,8 @@ graph TD
 
 ```
 
+---
+
 ### `poisson_bootstrap(ab_test_data, B)`
 
 #### ✅ Inputs
@@ -177,6 +187,7 @@ A DataFrame with B rows, and the following columns:
 | ARPPU_difference       | Avg. Revenue Per Paying User (B - A)  |
 | CR_difference          | Conversion Rate (B - A)               |
 
+---
 
 ### `bootstrap_result_check(bootstrap_data, alpha)`
 
@@ -194,6 +205,8 @@ Prints:
 - `Sample mean`  
 - `Confidence interval`  
 - `Decision about rejecting the null hypothesis`
+
+---
 
 ## 3. Metrics for Evaluating Themed Event Performance in Games
 
@@ -214,6 +227,8 @@ If event mechanics are made more challenging by regressing levels on failure:
 - Time spent per level (indicates difficulty).
 - Comparison of completion rate before and after difficulty change.
 - Player frustration or satisfaction metrics if available (e.g., surveys).
+
+---
 
 ### Metrics Flowchart
 This flow visualizes how to evaluate event performance in the game, adjusting metrics based on event complexity (e.g., level regression after failure).
