@@ -38,8 +38,9 @@ Cohort retention can be visualized in **daily, weekly, or monthly** granularity,
 
 ![Daily Rolling Cohort Retention Rate - Table](Images/Daily%20Rolling%20Cohort%20Retention%20Rate%20-%20Table.png)
 
-
 ---
+
+### ⚙️ Pipeline Overview
 ```mermaid
 graph TD
   A[Read reg_data.csv & auth_data.csv];
@@ -109,6 +110,8 @@ Metadata is stored as attributes in the result:
 ## 🧪 2. Poisson Bootstrap A/B Testing
 
 Bootstrapping is a robust statistical method used to estimate the sampling distribution of a statistic by repeatedly resampling the observed data with replacement. It is especially valuable when the theoretical distribution is unknown or when calculating analytical confidence intervals is difficult or impractical.
+
+![Poisson bootstrap result analysis - ARPU](Images/Poisson%20bootstrap%20result%20analysis%20-%20ARPU.png)
 
 ---
 
@@ -234,4 +237,3 @@ graph TD
   I --> N[No: Continue with standard metrics];
 
 ```
-M
