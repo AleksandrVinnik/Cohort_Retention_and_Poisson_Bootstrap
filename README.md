@@ -1,9 +1,9 @@
 # 📊 Cohort Retention & A/B Testing Analysis Toolkit
 
-This repository contains Python functions for:
+This repository contains Python solution for:
 
-**Cohort Retention Analysis** — Calculate user retention rates over time.
-**Poisson Bootstrap A/B Testing** — Evaluate A/B test metrics (ARPU, ARPPU, CR) using Poisson bootstrapping.
+**Cohort Retention Analysis** — Calculate user retention rates over time.  
+**Poisson Bootstrap A/B Testing** — Evaluate A/B test metrics (ARPU, ARPPU, CR) using Poisson bootstrapping.  
 
 ## 📁 Contents
 
@@ -13,6 +13,23 @@ bootstrap_result_check(...): Evaluates bootstrap output for statistical signific
 
 
 ## 🔢 1. Player Cohort Retention Analysis Function
+
+**Retention** measures how many users return to the product after their first experience, helping teams understand user engagement and product stickiness.
+
+**Cohort analysis** groups users based on their start date (e.g., registration date) and tracks their behavior (e.g., logins) over time. This highlights patterns and retention trends within specific user groups, allowing you to:
+
+- Compare different user onboarding cohorts  
+- Evaluate product changes by tracking newer vs. older cohorts  
+- Identify when churn occurs and respond with tailored actions  
+
+Implementation of cohort analysis allows teams to quantify retention using two core methods:
+
+- **Classic Retention**: Users active in each period after their cohort start  
+- **Rolling Retention**: Users who return at least once *after* a given period  
+
+Cohort retention can be visualized in **daily, weekly, or monthly** granularity, and supports both **classic** (discrete period-based) and **rolling** (cumulative) retention calculations.
+
+---
 ```mermaid
 graph TD
   A[Read reg_data.csv & auth_data.csv];
@@ -28,6 +45,20 @@ graph TD
   H --> K[Visualize with viz.retention_plot];
 
 ```
+
+### 🔁 Why It Matters
+
+Implementing retention and cohort analysis allows product teams to:
+
+- Benchmark performance of new player funnels  
+- Understand when and why users churn  
+- Test the impact of design or difficulty changes  
+- Align product decisions with long-term engagement metrics  
+
+> 🔍 **Retention** is not just about *"how many come back"* — it's about **who** comes back, **when**, and **why**.
+
+---
+
 ### cohort_retention(reg_data, auth_data, start_date, end_date, cohort_type, number_of_periods, retention_type='classic')
 
 #### ✅ Inputs
@@ -67,6 +98,33 @@ Metadata is stored as attributes in the result:
 
 ## 🧪 2. Poisson Bootstrap A/B Testing
 
+Bootstrapping is a robust statistical method used to estimate the sampling distribution of a statistic by repeatedly resampling the observed data with replacement. It is especially valuable when the theoretical distribution is unknown or when calculating analytical confidence intervals is difficult or impractical.
+
+---
+
+### 🔁 Why Bootstrapping?
+
+In A/B testing, bootstrapping allows us to simulate thousands of potential outcomes of the experiment by creating many pseudo-samples from the observed data. This helps to:
+
+- Estimate confidence intervals for KPIs (like **ARPU**, **ARPPU**, **CR**)
+- Perform hypothesis testing without strict assumptions (e.g., **normality**)
+- Improve robustness, especially with **skewed revenue distributions** (whales vs. minnows)
+
+---
+
+### 🧮 Poisson Bootstrap in Particular
+
+Poisson bootstrapping is a **memory- and compute-efficient** variant of traditional bootstrap. Instead of explicitly resampling entire datasets, it assigns **Poisson(λ = 1)** random weights to each data point. This makes it ideal for:
+
+- **Vectorized operations**: Efficient row-wise multiplication using NumPy arrays  
+- **Parallel computing**: Each bootstrap iteration is independent, allowing distribution across CPU cores or compute nodes  
+- **Low memory usage**: Avoids large temporary datasets common in classic resampling  
+
+This method is especially helpful for **large-scale A/B tests** with millions of users and revenue entries.
+
+---
+
+### ⚙️ Pipeline Overview
 ```mermaid
 graph TD
   A[Download CSV from Yandex];
