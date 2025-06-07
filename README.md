@@ -7,8 +7,13 @@ This repository provides Python solutions for two important analytical tasks:
 ### 1. Cohort Retention Analysis
 Calculate user retention rates over time with customizable cohort granularity (daily, weekly, or monthly). This allows you to track how different user groups behave and retain over specific time intervals, enabling deeper insights into user engagement patterns.
 
+#### 📊 Daily Rolling Cohort Retention Rate
 
+![Daily Rolling Cohort Retention Rate - Line Plot](Images/Daily%20Rolling%20Cohort%20Retention%20Rate%20-%20Line%20Plot.png)
 
+![Daily Rolling Cohort Retention Rate - Table](Images/Daily%20Rolling%20Cohort%20Retention%20Rate%20-%20Table.png)
+
+---
 ### 2. Poisson Bootstrap A/B Testing
 Evaluate A/B test metrics — such as Average Revenue Per User (ARPU), Average Revenue Per Paying User (ARPPU), and Conversion Rate (CR) — using Poisson bootstrapping.  
 Poisson bootstrap is an efficient variant of traditional bootstrapping that assigns random Poisson-distributed weights to each data point instead of resampling entire datasets. This approach:
@@ -16,6 +21,18 @@ Poisson bootstrap is an efficient variant of traditional bootstrapping that assi
 - Enables fast, vectorized computations with minimal memory overhead  
 - Facilitates parallel processing, making it scalable for large datasets  
 - Provides robust confidence intervals and hypothesis tests without strong parametric assumptions
+
+<div align="center">
+  <a href="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" target="_blank">
+    <img src="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" alt="Poisson Bootstrap Illustration">
+  </a>
+  <br>
+  <small>
+    Source: <a href="https://www.bibleofai.com/the-poisson-bootstrap-bootstrapping-over-giant-datasets-by-david-clarance-aug-2024/" target="_blank">
+      The Poisson Bootstrap. Bootstrapping over giant datasets by David Clarance, Aug 2024
+    </a>
+  </small>
+</div>
 
 ---
 
@@ -181,14 +198,6 @@ Cohort retention can be visualized in **daily, weekly, or monthly** granularity,
 
 ---
 
-### 📊 Daily Rolling Cohort Retention Rate
-
-![Daily Rolling Cohort Retention Rate - Line Plot](Images/Daily%20Rolling%20Cohort%20Retention%20Rate%20-%20Line%20Plot.png)
-
-![Daily Rolling Cohort Retention Rate - Table](Images/Daily%20Rolling%20Cohort%20Retention%20Rate%20-%20Table.png)
-
----
-
 ### ⚙️ Pipeline Overview
 ```mermaid
 graph TD
@@ -288,20 +297,8 @@ Poisson bootstrapping is a **memory- and compute-efficient** variant of traditio
 
 This method is especially helpful for **large-scale A/B tests** with millions of users and revenue entries.
 
-<div align="center">
-  <a href="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" target="_blank">
-    <img src="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" alt="Poisson Bootstrap Illustration">
-  </a>
-  <br>
-  <small>
-    Source: <a href="https://www.bibleofai.com/the-poisson-bootstrap-bootstrapping-over-giant-datasets-by-david-clarance-aug-2024/" target="_blank">
-      The Poisson Bootstrap. Bootstrapping over giant datasets by David Clarance, Aug 2024
-    </a>
-  </small>
-</div>
-
-
 ---
+
 #### A/B Test Analysis Workflow using Poisson Bootstrap
 
 ```mermaid
