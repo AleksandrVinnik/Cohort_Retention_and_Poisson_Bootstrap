@@ -28,7 +28,7 @@ Poisson bootstrap is an efficient variant of traditional bootstrapping that assi
   </a>
   <br>
   <small>
-    Source: <a href="https://www.bibleofai.com/the-poisson-bootstrap-bootstrapping-over-giant-datasets-by-david-clarance-aug-2024/" target="_blank">
+    Image Source: <a href="https://www.bibleofai.com/the-poisson-bootstrap-bootstrapping-over-giant-datasets-by-david-clarance-aug-2024/" target="_blank">
       The Poisson Bootstrap. Bootstrapping over giant datasets by David Clarance, Aug 2024
     </a>
   </small>
