@@ -290,7 +290,7 @@ This method is especially helpful for **large-scale A/B tests** with millions of
 
 <div align="center">
   <a href="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" target="_blank">
-    <img src="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" alt="Poisson Bootstrap Illustration" width="600">
+    <img src="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" alt="Poisson Bootstrap Illustration">
   </a>
   <br>
   <small>
