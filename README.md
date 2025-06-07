@@ -290,7 +290,7 @@ This method is especially helpful for **large-scale A/B tests** with millions of
 
 <div align="center">
   <a href="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" target="_blank">
-    View Poisson Bootstrap Illustration
+    <img src="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" alt="Poisson Bootstrap Illustration" width="600">
   </a>
   <br>
   <small>
@@ -299,6 +299,7 @@ This method is especially helpful for **large-scale A/B tests** with millions of
     </a>
   </small>
 </div>
+
 
 ---
 #### A/B Test Analysis Workflow using Poisson Bootstrap
