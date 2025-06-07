@@ -288,6 +288,18 @@ Poisson bootstrapping is a **memory- and compute-efficient** variant of traditio
 
 This method is especially helpful for **large-scale A/B tests** with millions of users and revenue entries.
 
+<div align="center">
+  <a href="Images/The%20Poisson%20Bootstrap.%20Bootstrapping%20over%20giant%20datasets%20by%20David%20Clarance%20Aug%2C%202024.png" target="_blank">
+    View Poisson Bootstrap Illustration
+  </a>
+  <br>
+  <small>
+    Source: <a href="https://www.bibleofai.com/the-poisson-bootstrap-bootstrapping-over-giant-datasets-by-david-clarance-aug-2024/" target="_blank">
+      The Poisson Bootstrap. Bootstrapping over giant datasets by David Clarance, Aug 2024
+    </a>
+  </small>
+</div>
+
 ---
 #### A/B Test Analysis Workflow using Poisson Bootstrap
 
